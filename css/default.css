@@ -67,3 +67,7 @@ html, body {
 .footer .container {
     text-align: center;
 }
+
+.modal-content {
+    color: black;
+}

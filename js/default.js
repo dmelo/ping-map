@@ -1,7 +1,7 @@
 'use strict';
 
 var ipList = {
-        'br': 'http://177.72.255.184/favicon.ico',
+        'br': 'http://177.72.255.184/lib/content/themes/saopaulo/img/bt_busca.png',
         'us': 'http://74.122.182.100/favicon.ico',
         'fr': 'http://87.252.12.90/favicon.ico',
         'ca': 'http://142.213.160.134/favicon.ico',
@@ -44,8 +44,6 @@ function updateColors() {
         maxTime = 2000000,
         colors = {};
 
-    console.log(colorList);
-
     for (var key in colorList) {
         var delta = colorList[key];
 
@@ -54,11 +52,9 @@ function updateColors() {
 
     for (var key in colorList) {
         var delta = colorList[key];
-        console.log(minTime, delta, maxTime);
         
         colors[key] = getColor(delta);
     }
-    console.log(colors);
     jQuery('#vmap').vectorMap('set', 'colors', colors);
 }
 
@@ -67,20 +63,17 @@ function ping(country) {
         start = new Date();
 
     img.start = start;
-   
-    $(img).bind('load', function (e) {
+
+    var updateCountry = function(e) {
         var end = new Date(),
-            delta = end.getTime() - this.start.getTime();
+            delta = end.getTime() - start.getTime();
 
         console.log(country + ": " + delta);
         colorList[country] = delta;
         updateColors();
-
-    }).bind('error', function(e) {
-        var end = new Date();
-        console.log(e);
-        console.log(end.getTime() - this.start.getTime());
-    });
+    };
+   
+    $(img).bind('load', updateCountry).bind('error', updateCountry);
 
     img.src = eval('ipList.' + country) + '?v=' + start.getTime();
 }
@@ -119,6 +112,7 @@ $(document).ready(function() {
             }
         },
     });
+
 
     setInterval(processCountry, 1000);
     $('#legend-end span').html(redThreshold + " ms");
