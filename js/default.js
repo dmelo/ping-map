@@ -1,14 +1,6 @@
 'use strict';
 
-var ipList = {
-        'br': 'http://177.72.255.184/lib/content/themes/saopaulo/img/bt_busca.png',
-        'us': 'http://74.122.182.100/favicon.ico',
-        'fr': 'http://87.252.12.90/favicon.ico',
-        'ca': 'http://142.213.160.134/favicon.ico',
-        'ru': 'http://46.254.17.83',
-        'my': 'http://www.exabytes.com.my/images/exa-favicon.ico'
-    },
-    colorList = {}, // key: country, value: color.
+var colorList = {}, // key: country, value: color.
     current = 0,
     redThreshold = 1000;
 
@@ -75,11 +67,11 @@ function ping(country) {
    
     $(img).bind('load', updateCountry).bind('error', updateCountry);
 
-    img.src = eval('ipList.' + country) + '?v=' + start.getTime();
+    img.src = eval('$.ipList.' + country) + '?v=' + start.getTime();
 }
 
 function processCountry() {
-    var keys = Object.keys(ipList),
+    var keys = Object.keys($.ipList),
         country = keys[current];
     ping(country);
     current++;
