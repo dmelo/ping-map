@@ -1,0 +1,33 @@
+<VirtualHost *:80>
+    ServerAdmin dmelo87@gmail.com
+    DocumentRoot /home/dmelo/proj2/ping-map
+    HostnameLookups Off
+    ServerName pingmap.localhost
+
+    SetEnv APPLICATION_ENV development
+    php_admin_value date.timezone "America/Sao_Paulo"
+
+    <Directory />
+        # AllowOverride None
+
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    <IfModule mod_security.c>
+        SecFilterEngine Off
+        SecFilterScanPOST Off
+    </IfModule>
+
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !\.(js|ico|gif|jpg|jpeg|png|css|html|htm|xml|zip|gz|ini|doc|ico|swf|flv|fla|dtd|mp3|php|woff|woff2|ttf|pjs|m4a|aac|flv|3gp|mp4|svg|json|m4v|map|bz2)$
+    RewriteRule ^/(.*?)$ /index.html
+
+
+    CustomLog /var/log/apache2/pingmap_log_access combined
+    ErrorLog /var/log/apache2/pingmap_log_error
+    LogLevel trace8
+</VirtualHost>
+
